@@ -11,21 +11,21 @@ public class DatabaseManager {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public static boolean addUser(String username, String password) {
-        String checkQuery = "SELECT COUNT(*) FROM users WHERE username = ?";
-        String insertQuery = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+    public static boolean addUser(String login, String password) {
+        String checkQuery = "SELECT COUNT(*) FROM users WHERE login = ?";
+        String insertQuery = "INSERT INTO users (login, password) VALUES (?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement checkStmt = conn.prepareStatement(checkQuery);
              PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
 
-            checkStmt.setString(1, username);
+            checkStmt.setString(1, login);
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 return false;
             }
 
-            insertStmt.setString(1, username);
+            insertStmt.setString(1, login);
             insertStmt.setString(2, password);
             insertStmt.executeUpdate();
             return true;
@@ -36,13 +36,13 @@ public class DatabaseManager {
         }
     }
 
-    public static boolean authenticate(String username, String password) {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+    public static boolean authenticate(String login, String password) {
+        String query = "SELECT * FROM users WHERE login = ? AND password = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, username);
+            stmt.setString(1, login);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             return rs.next();

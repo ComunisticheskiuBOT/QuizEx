@@ -71,16 +71,13 @@ public class RoundedRegisterScreen extends JFrame {
         add(passwordField, gbc);
 
         gbc.gridy = 4;
-        add(new JLabel("Почта:"), gbc);
-
-        gbc.gridy = 5;
         gbc.gridwidth = 1;
         add(backButton, gbc);
 
         gbc.gridx = 1;
         add(registerButton, gbc);
 
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         add(messageLabel, gbc);
